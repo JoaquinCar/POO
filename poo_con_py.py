@@ -1,52 +1,51 @@
 class Personaje:
 
     def __init__(self,name,strenght,intelligence,defense,hp):  #constructor 
-        self.name = name
-        self.strenght = strenght
-        self.intelligence = intelligence
-        self.defense = defense
-        self.hp = hp
+        self.__name = name
+        self.__strenght = strenght
+        self.__intelligence = intelligence
+        self.__intelligence = defense
+        self.__hp = hp
 
     def atributos(self):    ## imprimir bonito los atributos
-        print(f"Nombre: {self.name}")
-        print(f"Fuerza: {self.strenght}")
-        print(f"Inteligencia: {self.intelligence}")
-        print(f"Defensa: {self.defense}")
-        print(f"HP: {self.hp}")
+        print(f"Nombre: {self.__name}")
+        print(f"Fuerza: {self.__strenght}")
+        print(f"Inteligencia: {self.__intelligence}")
+        print(f"Defensa: {self.__intelligence}")
+        print(f"HP: {self.__hp}")
 
     def subirNivel(self,strenght,intelligence,defense): ##sumar valores al subir nivel
-        self.strenght += strenght
-        self.intelligence += intelligence
-        self.defense += defense
+        self.__strenght += strenght
+        self.__intelligence += intelligence
+        self.__intelligence += defense
 
     def damage(self,enemy): #calculamos el damage
-        return self.strenght - enemy.defense
+        return self.__strenght - enemy.__intelligence
 
     def attack(self,enemy): ##llama al metodo anterior, resta el damage a la vida del otro e imprime info
         damage = self.damage(enemy)
-        if damage <0:
+        if damage < 0:
             damage = 0
 
-        enemy.hp = enemy.hp - damage
-        if enemy.hp < 0:
-            enemy.hp = 0
-            print(f"{self.name} attacked {enemy.name} and caused {damage} of damage")
-            print (f"{enemy.name} is dead")
+        enemy.__hp = enemy.__hp - damage
+        if enemy.__hp < 0:
+            enemy.__hp = 0
+            print(f"{self.__name} attacked {enemy.__name} and caused {damage} of damage")
+            print (f"{enemy.__name} has {enemy.__hp} points of life, and now is dead")
         else:
-            print(f"{self.name} attacked {enemy.name} and caused {damage} of damage")
-            print(f"{enemy.name} life is now {enemy.hp}")
+            print(f"{self.__name} attacked {enemy.__name} and caused {damage} of damage")
+            print(f"{enemy.__name} life is {enemy.__hp}")
     
     def estarVivo(self):
-        if self.hp>0:
-            print(f"{self.name} is alive")
+        if self.__hp>0:
+            print(f"{self.__name} is alive")
         else:
-            print(f"{self.name} is dead")
+            print(f"{self.__name} is dead")
 
-personaje1 = Personaje("Lalo", 30, 40,15,100)
-personaje2= Personaje ("Luis", 10, 30, 40, 100)
+personaje1 = Personaje("Lalo", 10, 40,15,100)
+personaje2= Personaje ("Luis", 10, 30, 50, 100)
 #personaje1.subirNivel(10,5,5)
 #personaje1.atributos()
 #personaje1.estarVivo()
 personaje1.attack(personaje2)
-
 #personaje2.atributos()
