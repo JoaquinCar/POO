@@ -24,9 +24,17 @@ class Personaje:
 
     def attack(self,enemy): ##llama al metodo anterior, resta el damage a la vida del otro e imprime info
         damage = self.damage(enemy)
+        if damage <0:
+            damage = 0
+
         enemy.hp = enemy.hp - damage
-        print(f"{self.name} attacked {enemy.name} and caused {damage} of damage")
-        print(f"{enemy.name} life is now {enemy.hp}")
+        if enemy.hp < 0:
+            enemy.hp = 0
+            print(f"{self.name} attacked {enemy.name} and caused {damage} of damage")
+            print (f"{enemy.name} is dead")
+        else:
+            print(f"{self.name} attacked {enemy.name} and caused {damage} of damage")
+            print(f"{enemy.name} life is now {enemy.hp}")
     
     def estarVivo(self):
         if self.hp>0:
@@ -34,10 +42,11 @@ class Personaje:
         else:
             print(f"{self.name} is dead")
 
-personaje1 = Personaje("Lalo", 20, 50,15,100)
-personaje2= Personaje ("Luis", 10, 30, 10, 100)
+personaje1 = Personaje("Lalo", 30, 40,15,100)
+personaje2= Personaje ("Luis", 10, 30, 40, 100)
 #personaje1.subirNivel(10,5,5)
 #personaje1.atributos()
 #personaje1.estarVivo()
 personaje1.attack(personaje2)
+
 #personaje2.atributos()
