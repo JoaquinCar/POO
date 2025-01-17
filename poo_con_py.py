@@ -26,17 +26,6 @@ class Personaje:
         damage = self.damage(enemy)
         if damage < 0:
             damage = 0
-
-
-        enemy.hp = enemy.hp - damage
-        if enemy.hp < 0:
-            enemy.hp = 0
-            print(f"{self.name} attacked {enemy.name} and caused {damage} of damage")
-            print (f"{enemy.name} has {enemy.hp} points of life, and now is dead")
-        else:
-            print(f"{self.name} attacked {enemy.name} and caused {damage} of damage /n {enemy.name} life is {enemy.hp}")
-    
-
         enemy.hp = enemy.hp - damage
         if enemy.hp < 0:
             enemy.hp = 0
@@ -52,16 +41,6 @@ class Personaje:
             print(f"{self.name} is alive")
         else:
             print(f"{self.name} is dead")
-    def get_strenght(self):
-        return f"la fuerza es {self.strenght}"
-    
-    def set_strenght(self,strenght):
-        self.strenght = strenght
-        if strenght <= 0:
-            self.strenght = 0
-            print("No se puede tener fuerza negativa")
-        else:
-            return f"la nueva fuerza es {self.strenght}"
 
 personaje1 = Personaje("Lalo", 10, 40,15,100)
 personaje2= Personaje ("Luis", 10, 30, 50, 100)
@@ -71,11 +50,12 @@ class Guerrero(Personaje):
              super().__init__(name, strenght, intelligence, defense, hp)
              self.sword = sword
             
-personaje1 = Personaje("Lalo", 30, 40,15,100)
+personaje1 = Personaje("Lalo", 50, 40,15,100)
 personaje2= Personaje ("Luis", 10, 30, 40, 100)
 guerrero = Guerrero("Guts", 50,20,10,100,10)
 
 #personaje1.subirNivel(10,5,5)
+personaje1.attack(personaje2)
 #personaje1.atributos()
 #personaje1.estarVivo()
 #personaje1.attack(personaje2)
