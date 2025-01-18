@@ -11,16 +11,16 @@ class Personaje:
         print(f"Nombre: {self.name}")
         print(f"Fuerza: {self.strenght}")
         print(f"Inteligencia: {self.intelligence}")
-        print(f"Defensa: {self.intelligence}")
+        print(f"Defensa: {self.defense}")
         print(f"HP: {self.hp}")
 
     def subirNivel(self,strenght,intelligence,defense): ##sumar valores al subir nivel
         self.strenght += strenght
         self.intelligence += intelligence
-        self.intelligence += defense
+        self.defense += defense
 
     def damage(self,enemy): #calculamos el damage
-        return self.strenght - enemy.intelligence
+        return self.strenght - enemy.defense
 
     def attack(self,enemy): ##llama al metodo anterior, resta el damage a la vida del otro e imprime info
         damage = self.damage(enemy)
@@ -73,8 +73,9 @@ class Guerrero(Personaje):
                 except ValueError:
                     print("Entrada no válida. Debes ingresar un número.")
             ##sobre escribir el metodo damage para sumar el daño de la espada
-            def damage(self,enemy):
-                return self.strenght + self.sword - enemy.defense
+        def damage(self,enemy):
+            return self.strenght + self.sword - enemy.defense
+        
 
 class Mago(Personaje):
         def __init__(self, name, strenght, intelligence, defense, hp, magic):
@@ -109,19 +110,8 @@ class Mago(Personaje):
             
 
 persona = Personaje("Lalo", 50, 40,15,100)
-guts = Guerrero("Guts", 50,20,10,100,10)
-mago_de_hielo = Mago("Mago de Hielo", 10,50,5,100,10)
-
-
-
-mago_de_hielo.attack(guts)
-
-
-
-#personaje1.subirNivel(10,5,5
-#personaje1.atributos()
-#personaje1.estarVivo()
-#personaje1.attack(personaje2)
-
+guts = Guerrero("Guts", 100,20,10,100,10)
+mago_de_hielo = Mago("Mago de Hielo", 10,50,10,100,10)
+guts.attack(mago_de_hielo)
 
 
