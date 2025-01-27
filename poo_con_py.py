@@ -13,6 +13,24 @@ class Personaje:
         print(f"Inteligencia: {self.intelligence}")
         print(f"Defensa: {self.defense}")
         print(f"HP: {self.hp}")
+    
+    def personaje_con_mas_vida(self): 
+        personajes = [guts, mago_de_hielo, persona]
+        personaje_con_mas_vida = max(personajes, key=lambda personaje: personaje.hp)
+        return(f"El personaje con mas vida es {personaje_con_mas_vida.name} con {personaje_con_mas_vida.hp} de vida")
+
+    def suma_inteligencias(self):
+        personajes = [guts, mago_de_hielo, persona]
+        suma_inteligencias = sum(personaje.intelligence for personaje in personajes)
+        return (f"La suma de las inteligencias de los personajes es {suma_inteligencias}")
+
+    
+    def personajes_vida_mayor_a_80(self):
+        personajes = [guts, mago_de_hielo, persona]
+        personajes_vida_mayor_a_80 = [personaje for personaje in personajes if personaje.hp >= 80]
+        personajes_info = ', '.join(f"{personaje.name} Tiene (HP: {personaje.hp})" for personaje in personajes_vida_mayor_a_80)
+        return f"Los personajes con vida mayor a 80 son: {personajes_info}"
+
 
     def subirNivel(self,strenght,intelligence,defense): ##sumar valores al subir nivel
         self.strenght += strenght
@@ -42,17 +60,19 @@ class Personaje:
         else:
             print(f"{self.name} is dead")
 
-personaje1 = Personaje("Lalo", 10, 40,15,100)
-personaje2= Personaje ("Luis", 10, 30, 50, 100)
 
 class Guerrero(Personaje):
-        def __init__(self, name, strenght, intelligence, defense, hp,sword):
+        def __init__(self, name, strenght, intelligence, defense, hp,sword,shield):
              super().__init__(name, strenght, intelligence, defense, hp)
              self.sword = sword
+             self.shield = shield * defense
+             self.vida_escudo = hp + self.shield
+             
 
         def atributos(self):   ## sobre escribimos el metodo para que imprima el nuevo atributo, con el super es lo mismo, solo se agrega
             super().atributos()
-            print(f"Fuerza de espada: {self.sword} \n >>>>>>>>>>>>>\n")
+            print(f"Fuerza de espada: {self.sword} \nEscudo: {self.shield}\n >>>>>>>>>>>>>\n")
+    
         
         def elegir_arma(self):
             while True:
@@ -110,8 +130,13 @@ class Mago(Personaje):
             
 
 persona = Personaje("Lalo", 50, 40,15,100)
-guts = Guerrero("Guts", 100,20,10,100,10)
+guts = Guerrero("Guts", 100,20,10,75,10,5)
 mago_de_hielo = Mago("Mago de Hielo", 10,50,10,100,10)
-guts.attack(mago_de_hielo)
+guts.atributos()
 
-
+personaje_con_mas_vida = persona.personaje_con_mas_vida()
+print(personaje_con_mas_vida)
+inteligencias = persona.suma_inteligencias()
+print(inteligencias)
+personajes_vida_mayor_a_80 = persona.personajes_vida_mayor_a_80()
+print(personajes_vida_mayor_a_80)
