@@ -6,6 +6,7 @@ class Personaje:
         self.intelligence = intelligence
         self.defense = defense
         self.hp = hp
+        self.inventario = {"vida": 0, "fuerza": 0, "inteligencia": 0}
 
     def atributos(self):    ## imprimir bonito los atributos
         print(f"Nombre: {self.name}")
@@ -13,7 +14,30 @@ class Personaje:
         print(f"Inteligencia: {self.intelligence}")
         print(f"Defensa: {self.defense}")
         print(f"HP: {self.hp}")
+        print(f"Inventario: {self.inventario}")
     
+
+    def usar_pocima(self, tipo):
+        try:
+            if tipo not in ["vida", "fuerza", "inteligencia"]:
+                raise ValueError("Tipo de pócima no válido. Debe ser 'vida', 'fuerza' o 'inteligencia'.")
+            if self.inventario[tipo] > 0:
+                if tipo == "vida":
+                    self.hp += 20
+                    print(f"{self.name} usó una pócima de vida. Nueva vida: {self.hp}")
+                elif tipo == "fuerza":
+                    self.strenght += self.strenght * 0.5
+                    print(f"{self.name} usó una pócima de fuerza. Nueva fuerza: {self.strenght}")
+                elif tipo == "inteligencia":
+                    self.intelligence += self.intelligence * 0.5
+                    print(f"{self.name} usó una pócima de inteligencia. Nueva inteligencia: {self.intelligence}")
+                self.inventario[tipo] -= 1
+            else:
+                print(f"{self.name} no tiene pócimas de {tipo} en el inventario.")
+        except ValueError as e:
+            print(e)
+
+
     def personaje_con_mas_vida(self): 
         personajes = [guts, mago_de_hielo, persona]
         personaje_con_mas_vida = max(personajes, key=lambda personaje: personaje.hp)
@@ -44,7 +68,8 @@ class Personaje:
         damage = self.damage(enemy)
         if damage < 0:
             damage = 0
-        enemy.hp = enemy.hp - damage
+        enemy.recibir_dano(damage)
+       
         if enemy.hp < 0:
             enemy.hp = 0
             print(f"{self.name} attacked {enemy.name} and caused {damage} of damage")
@@ -52,27 +77,50 @@ class Personaje:
         else:
             print(f"{self.name} attacked {enemy.name} and caused {damage} of damage")
             print(f"{enemy.name} life is now {enemy.hp}")
-             
+    def recibir_dano(self, damage):
+        self.hp -= damage
+        if self.hp < 0:
+            self.hp = 0
+        print(f"{self.name} recibió {damage} de daño. Vida restante: {self.hp}")         
 
-    def estarVivo(self):
-        if self.hp>0:
-            print(f"{self.name} is alive")
-        else:
-            print(f"{self.name} is dead")
+    def combate(self, enemigo):
+        while self.hp > 0 and enemigo.hp > 0:
+            self.attack(enemigo)
+            if enemigo.hp > 0:
+                enemigo.attack(self)
+            if self.hp <= 0:
+                print(f"{self.name} ha sido derrotado.")
+            if enemigo.hp <= 0:
+                print(f"{enemigo.name} ha sido derrotado.")
 
 
 class Guerrero(Personaje):
         def __init__(self, name, strenght, intelligence, defense, hp,sword,shield):
              super().__init__(name, strenght, intelligence, defense, hp)
              self.sword = sword
-             self.shield = shield * defense
-             self.vida_escudo = hp + self.shield
+             self.shield = shield 
+             self.vida_escudo = hp * shield
              
 
         def atributos(self):   ## sobre escribimos el metodo para que imprima el nuevo atributo, con el super es lo mismo, solo se agrega
             super().atributos()
-            print(f"Fuerza de espada: {self.sword} \nEscudo: {self.shield}\n >>>>>>>>>>>>>\n")
-    
+            print(f"Fuerza de espada: {self.sword} \nVida del Escudo: {self.vida_escudo}\n >>>>>>>>>>>>>\n")
+
+        def damage(self,enemy):
+            return self.strenght + self.sword - enemy.defense
+
+        def damage(self, enemy):
+            return self.strenght + self.sword - enemy.defense
+
+        def recibir_dano(self, damage):
+            if damage <= self.vida_escudo:
+                self.vida_escudo -= damage
+                print(f"El escudo absorbió todo el daño. Vida del escudo restante: {self.vida_escudo}")
+            else:
+                dano_restante = damage - self.vida_escudo
+                self.vida_escudo = 0
+                self.hp -= dano_restante
+                print(f"El escudo fue destruido. Daño restante aplicado al guerrero: {dano_restante}. Vida del guerrero: {self.hp}")
         
         def elegir_arma(self):
             while True:
@@ -93,8 +141,7 @@ class Guerrero(Personaje):
                 except ValueError:
                     print("Entrada no válida. Debes ingresar un número.")
             ##sobre escribir el metodo damage para sumar el daño de la espada
-        def damage(self,enemy):
-            return self.strenght + self.sword - enemy.defense
+
         
 
 class Mago(Personaje):
@@ -132,11 +179,7 @@ class Mago(Personaje):
 persona = Personaje("Lalo", 50, 40,15,100)
 guts = Guerrero("Guts", 100,20,10,75,10,5)
 mago_de_hielo = Mago("Mago de Hielo", 10,50,10,100,10)
-guts.atributos()
+guts.inventario["vida"] = 1
 
-personaje_con_mas_vida = persona.personaje_con_mas_vida()
-print(personaje_con_mas_vida)
-inteligencias = persona.suma_inteligencias()
-print(inteligencias)
-personajes_vida_mayor_a_80 = persona.personajes_vida_mayor_a_80()
-print(personajes_vida_mayor_a_80)
+
+guts.atributos()
